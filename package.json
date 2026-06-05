@@ -1,0 +1,31 @@
+{
+  "name": "medusa-ai-remix-plugin",
+  "displayName": "Medusa AI Auditor",
+  "version": "1.0.0",
+  "description": "🐍 AI-Powered Smart Contract Security Auditor — Audit your Solidity contracts directly from Remix IDE with on-chain immutable seals on BSC",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite --port 3001",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@remixproject/plugin-api": "^0.3.38",
+    "@remixproject/plugin-webview": "^0.3.38",
+    "ethers": "^6.16.0"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  },
+  "keywords": [
+    "remix",
+    "plugin",
+    "solidity",
+    "audit",
+    "security",
+    "ai",
+    "bsc"
+  ],
+  "author": "Medusa AI Team",
+  "license": "MIT"
+}

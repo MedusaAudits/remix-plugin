@@ -1,0 +1,17 @@
+{
+  "name": "medusa-ai-auditor",
+  "displayName": "Medusa AI Auditor",
+  "version": "2.0.0",
+  "url": "https://remix-plugin.vercel.app",
+  "kind": "iframe",
+  "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHJ4PSI2IiBmaWxsPSIjMGQxMTE3Ii8+PHRleHQgeD0iMTYiIHk9IjIyIiBmb250LXNpemU9IjIwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7wn5CNPC90ZXh0Pjwvc3ZnPg==",
+  "description": "🐍 AI-Powered Smart Contract Security — ERC-8004 Registered Agent #127076 on BSC. Audit Solidity contracts with Mythril + AI. On-chain immutable seals. Express (0.05 BNB) and Premium (0.5 BNB).",
+  "location": "sidePanel",
+  "targets": ["sidePanel"],
+  "documentation": "https://medusaaudits.com/start",
+  "repo": "https://github.com/medusa-ai/remix-plugin",
+  "methods": [],
+  "events": [],
+  "canActivate": [],
+  "permission": true
+}
