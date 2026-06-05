@@ -1,5 +1,5 @@
 // ============================================
-// 🐍 MEDUSA AI — REMIX PLUGIN CORE LOGIC
+// 🐍 MEDUSA AI — REMIX PLUGIN CORE LOGIC v2.1
 // Connects to Remix IDE and handles the full audit flow
 // ============================================
 
@@ -12,6 +12,8 @@ import {
   RISK_LABELS,
   SCORE_MAP,
   CONTRACT_ABI,
+  PLUGIN_VERSION,
+  BACKEND_ENDPOINTS,
 } from './config.js';
 import { readAuditReport, getBlockNumber } from './bsc-rpc.js';
 
@@ -25,6 +27,7 @@ let selectedTier = 'express';
 let isAuditing = false;
 let auditStartBlock = 0;
 let connectionRetries = 0;
+let isInsideRemix = true;
 const MAX_RETRIES = 3;
 
 // ============================================
@@ -74,6 +77,38 @@ async function logToTerminal(message) {
 }
 
 // ============================================
+// THEME MANAGEMENT
+// ============================================
+function applyTheme(brightness) {
+  const theme = brightness === 'light' ? 'light' : 'dark';
+  document.body.setAttribute('data-theme', theme);
+  console.log(`🐍 Theme set to: ${theme}`);
+}
+
+async function initTheme() {
+  if (!client) return;
+  try {
+    const theme = await client.call('theme', 'currentTheme');
+    if (theme && theme.brightness) {
+      applyTheme(theme.brightness);
+    }
+  } catch (e) {
+    console.log('[Medusa] Theme detection not available, using dark');
+  }
+
+  // Listen for theme changes
+  try {
+    client.on('theme', 'themeChanged', (theme) => {
+      if (theme && theme.brightness) {
+        applyTheme(theme.brightness);
+      }
+    });
+  } catch (e) {
+    console.log('[Medusa] Theme listener not available');
+  }
+}
+
+// ============================================
 // TIER SELECTION
 // ============================================
 window.selectTier = function (tier) {
@@ -96,6 +131,33 @@ window.selectTier = function (tier) {
     btn.querySelector('.cta-price').textContent = '0.5 BNB';
   }
 };
+
+// ============================================
+// SOURCE CODE SUBMISSION (to backend)
+// ============================================
+async function submitSourceToBackend(source, fileName, targetAddress, tier) {
+  try {
+    const response = await fetch(BACKEND_ENDPOINTS.submitSource, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ source, fileName, targetAddress, tier }),
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      console.warn('[Medusa] Source submission warning:', err.error || response.status);
+      // Non-blocking — the oracle can still try BSCScan fallback
+      return false;
+    }
+
+    const data = await response.json();
+    console.log('[Medusa] Source submitted successfully:', data.submissionId);
+    return true;
+  } catch (e) {
+    console.warn('[Medusa] Source submission failed (non-blocking):', e.message);
+    return false;
+  }
+}
 
 // ============================================
 // REQUEST AUDIT — MAIN FLOW
@@ -131,7 +193,7 @@ window.requestAudit = async function () {
   const tierConfig = TIER_CONFIG[selectedTier];
 
   try {
-    // ── Step 1: Prepare transaction ──
+    // ── Step 1: Prepare & submit source ──
     updateStep(1, 'active');
     await logToTerminal(`🐍 [Medusa] Requesting ${selectedTier.toUpperCase()} audit for: ${currentFilePath}`);
     await logToTerminal(`🐍 [Medusa] Fee: ${tierConfig.priceDisplay}`);
@@ -146,6 +208,17 @@ window.requestAudit = async function () {
     } else {
       targetAddress = generateTargetAddress(currentSource);
       await logToTerminal(`🐍 [Medusa] Target: ${targetAddress} (auto from source hash)`);
+    }
+
+    // Submit source code to backend (non-blocking — oracle fallback to BSCScan)
+    const submitted = await submitSourceToBackend(
+      currentSource,
+      currentFilePath,
+      targetAddress,
+      selectedTier
+    );
+    if (submitted) {
+      await logToTerminal('🐍 [Medusa] ✅ Source code submitted to Medusa AI engine');
     }
 
     // Encode requestAudit(address) function call
@@ -177,7 +250,7 @@ window.requestAudit = async function () {
     updateStep(3, 'active');
 
     // ── Step 3: Poll for Oracle response ──
-    await logToTerminal(`🐍 [Medusa] ⏳ Waiting for Oracle to process audit...`);
+    await logToTerminal(`🐍 [Medusa] ⏳ Waiting for Medusa AI to process audit...`);
 
     const auditResult = await pollForResult(targetAddress, tierConfig);
 
@@ -198,7 +271,7 @@ window.requestAudit = async function () {
         `🐍 [Medusa] ✅ Audit complete! Risk: ${RISK_LABELS[auditResult.riskLevel]} | Secure: ${auditResult.isSecure}`
       );
     } else {
-      await logToTerminal(`🐍 [Medusa] ⏳ Oracle is still processing. The result will appear on-chain when ready.`);
+      await logToTerminal(`🐍 [Medusa] ⏳ Medusa AI is still processing. The result will appear on-chain when ready.`);
       progress.classList.remove('visible');
       resetButton();
     }
@@ -246,7 +319,7 @@ async function pollForResult(targetAddress, tierConfig) {
 
     // Update progress indicator
     const elapsed = Math.floor((Date.now() - startTime) / 1000);
-    $('progressSubtitle').textContent = `Scanning for vulnerabilities... (${elapsed}s)`;
+    $('progressSubtitle').textContent = `Medusa AI analyzing vulnerabilities... (${elapsed}s)`;
   }
 
   return null;
@@ -352,6 +425,46 @@ function sleep(ms) {
 }
 
 // ============================================
+// STANDALONE MODE (opened outside Remix IDE)
+// ============================================
+function showStandaloneMode() {
+  isInsideRemix = false;
+  const body = document.body;
+
+  // Create standalone overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'standalone-overlay';
+  overlay.innerHTML = `
+    <div class="standalone-card">
+      <img src="/medusa-coin.png" class="standalone-logo" alt="Medusa AI" />
+      <h2>Medusa AI Auditor</h2>
+      <p class="standalone-version">v${PLUGIN_VERSION} · ERC-8004 Agent #127076</p>
+      <div class="standalone-divider"></div>
+      <p class="standalone-desc">
+        This is a <strong>Remix IDE Plugin</strong>. To use it, open it inside Remix IDE:
+      </p>
+      <ol class="standalone-steps">
+        <li>Go to <a href="https://remix.ethereum.org" target="_blank" rel="noopener">remix.ethereum.org</a></li>
+        <li>Click the <strong>Plugin Manager</strong> icon (🔌) in the left sidebar</li>
+        <li>Search for <strong>"Medusa"</strong> and activate it</li>
+        <li>Or click "Connect to a Local Plugin" and enter this URL</li>
+      </ol>
+      <div class="standalone-url">
+        <code>${window.location.origin}</code>
+      </div>
+      <a href="https://medusaaudits.com" class="standalone-link" target="_blank" rel="noopener">
+        Visit medusaaudits.com →
+      </a>
+    </div>
+  `;
+
+  // Hide main content, show overlay
+  const mainElements = body.querySelectorAll('body > *:not(.ambient-bg):not(script):not(link)');
+  mainElements.forEach(el => el.style.display = 'none');
+  body.appendChild(overlay);
+}
+
+// ============================================
 // INITIALIZE REMIX CLIENT
 // ============================================
 async function init() {
@@ -369,14 +482,12 @@ async function init() {
     const connectionTimeout = setTimeout(() => {
       if (!loadFired) {
         console.warn('[Medusa] Connection timeout — onload did not fire in 15s');
-        setStatus(false, 'Waiting for Remix IDE...');
 
         // Retry logic — sometimes the iframe loads before the host is ready
         if (connectionRetries < MAX_RETRIES) {
           connectionRetries++;
           console.log(`[Medusa] Retry ${connectionRetries}/${MAX_RETRIES}...`);
           setStatus(false, `Retrying... (${connectionRetries}/${MAX_RETRIES})`);
-          // Re-attempt by calling handshake again after a short delay
           setTimeout(() => {
             try {
               client.onload(onPluginLoaded);
@@ -384,6 +495,9 @@ async function init() {
               console.warn('[Medusa] Retry handshake failed:', e.message);
             }
           }, 2000);
+        } else {
+          // After all retries, show standalone mode
+          showStandaloneMode();
         }
       }
     }, 15000);
@@ -397,7 +511,10 @@ async function init() {
       setStatus(true, 'Connected to Remix IDE');
       $('auditBtn').disabled = false;
 
-      // Load current file
+      // ── Initialize theme ──
+      await initTheme();
+
+      // ── Load current file ──
       try {
         currentFilePath = await client.call('fileManager', 'getCurrentFile');
         currentSource = await client.call('fileManager', 'readFile', currentFilePath);
@@ -406,7 +523,7 @@ async function init() {
         $('currentFile').textContent = 'Open a .sol file to begin';
       }
 
-      // Listen for file changes
+      // ── Listen for file changes ──
       client.on('fileManager', 'currentFileChanged', async (filePath) => {
         currentFilePath = filePath;
         try {
@@ -418,7 +535,7 @@ async function init() {
         }
       });
 
-      // Listen for file saves (content updates)
+      // ── Listen for file saves ──
       client.on('fileManager', 'fileSaved', async (filePath) => {
         if (filePath === currentFilePath) {
           try {
@@ -427,8 +544,10 @@ async function init() {
         }
       });
 
-      // Log welcome to Remix terminal
-      await logToTerminal('🐍 Medusa AI Auditor v2.0.0 loaded! ERC-8004 Agent #127076 | Open a .sol file → select tier → click audit.');
+      // ── Log welcome to Remix terminal ──
+      await logToTerminal(
+        `🐍 Medusa AI Auditor v${PLUGIN_VERSION} loaded! ERC-8004 Agent #127076 | Open a .sol file → select tier → click audit.`
+      );
     }
 
     // Register the onload callback

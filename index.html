@@ -3,15 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Medusa AI Auditor</title>
-  <meta name="description" content="AI-Powered Smart Contract Security Auditor — On-Chain Seals on BSC" />
+  <title>Medusa AI Auditor — Remix IDE Plugin</title>
+  <meta name="description" content="AI-Powered Smart Contract Security Auditor — ERC-8004 Agent #127076 on BNB Chain. Audit Solidity contracts directly from Remix IDE with on-chain immutable seals." />
+  <meta name="author" content="Medusa AI" />
+  <meta property="og:title" content="Medusa AI Auditor — Remix Plugin" />
+  <meta property="og:description" content="Audit Solidity smart contracts directly from Remix IDE. Express (0.05 BNB) and Premium (0.5 BNB) tiers with on-chain seals on BSC." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://remix-plugin.vercel.app" />
   <link rel="icon" type="image/png" href="/medusa-coin.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/styles.css" />
 </head>
-<body>
+<body data-theme="dark">
   <!-- AMBIENT BACKGROUND -->
   <div class="ambient-bg">
     <div class="ambient-orb orb-1"></div>
@@ -88,7 +93,7 @@
   <!-- TIER SELECTOR -->
   <div class="tier-section">
     <div class="card-label" style="padding: 0 2px; margin-bottom: 10px;">
-      <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path d="M7.823.177a.25.25 0 01.354 0l3.646 3.646a.25.25 0 01-.177.427H8.75v3h3.096a.25.25 0 01.177.427L8.177 11.323a.25.25 0 01-.354 0L4.177 7.677A.25.25 0 014.354 7.25H7.25v-3H4.354a.25.25 0 01-.177-.427L7.823.177z"/><path d="M13.5 13.25a.75.75 0 01-.75.75h-9.5a.75.75 0 010-1.5h9.5a.75.75 0 01.75.75z"/></svg>
+      <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path d="M7.823.177a.25.25 0 01.354 0l3.646 3.646a.25.25 0 01-.177.427H8.75v3h3.096a.25.25 0 01.177.427L8.177 11.323a.25.25 0 01-.354 0L4.177 7.677A.25.25 0 014.354 7.25H7.25v-3H4.354a.25.25 0 01-.177-.427L7.823.177z"/></svg>
       Audit Tier
     </div>
     <div class="tier-grid">
@@ -104,8 +109,8 @@
         </div>
         <div class="tier-fiat">≈ $30 USD</div>
         <div class="tier-features">
-          <div class="tier-feat">Mythril Analysis</div>
-          <div class="tier-feat">Static AI Report</div>
+          <div class="tier-feat">Static AI Analysis</div>
+          <div class="tier-feat">Instant Report</div>
         </div>
         <div class="tier-eta">~30-60 sec</div>
       </button>
@@ -150,19 +155,19 @@
         <img src="/medusa-coin.png" alt="Scanning" class="scan-coin" />
       </div>
       <div class="progress-headline">Analyzing Contract</div>
-      <div class="progress-sub" id="progressSubtitle">Medusa is scanning for vulnerabilities...</div>
+      <div class="progress-sub" id="progressSubtitle">Medusa AI is scanning for vulnerabilities...</div>
       <div class="progress-steps" id="progressSteps">
         <div class="p-step" id="step1">
           <span class="p-step-icon">○</span>
-          <span>Sending TX to BSC</span>
+          <span>Submitting to Medusa AI</span>
         </div>
         <div class="p-step" id="step2">
           <span class="p-step-icon">○</span>
-          <span>Awaiting confirmation</span>
+          <span>Sending TX to BSC</span>
         </div>
         <div class="p-step" id="step3">
           <span class="p-step-icon">○</span>
-          <span>Oracle processing</span>
+          <span>AI engine processing</span>
         </div>
         <div class="p-step" id="step4">
           <span class="p-step-icon">○</span>
@@ -222,7 +227,7 @@
       <img src="/medusa-coin.png" class="footer-coin" alt="" />
       <span>Medusa AI</span>
       <span class="footer-sep">·</span>
-      <span>v2.0.0</span>
+      <span>v2.1.0</span>
       <span class="footer-sep">·</span>
       <span class="erc8004-tag">ERC-8004</span>
     </div>

@@ -799,3 +799,361 @@ body > *:not(.ambient-bg) { position: relative; z-index: 1; }
   font-weight: 700;
   letter-spacing: 0.5px;
 }
+
+/* ═══════════════════════════════════════════════════
+   🌞 LIGHT THEME OVERRIDES
+   Activated via data-theme="light" on <body>
+   ═══════════════════════════════════════════════════ */
+
+/* ── LIGHT DESIGN TOKENS ── */
+[data-theme='light'] {
+  /* Brand — slightly deepened for light-bg contrast */
+  --m-green: #00c96a;
+  --m-green-bright: #00e87b;
+  --m-green-dim: #009e52;
+  --m-purple: #9333ea;
+  --m-purple-dim: #7e22ce;
+  --m-purple-bright: #a855f7;
+  /* Semantic */
+  --m-danger: #e11d48;
+  --m-warn: #d97706;
+  --m-info: #2563eb;
+  --m-safe: var(--m-green);
+  /* Surfaces */
+  --bg-base: #f5f7fa;
+  --bg-raised: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.72);
+  --bg-card-solid: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.55);
+  --bg-input: rgba(240, 242, 245, 0.9);
+  /* Borders */
+  --border-subtle: rgba(0, 0, 0, 0.07);
+  --border-dim: rgba(0, 0, 0, 0.12);
+  --border-active: rgba(0, 180, 95, 0.4);
+  /* Text */
+  --t-primary: #1a1d23;
+  --t-secondary: #4a5568;
+  --t-muted: #8b95a5;
+  --t-inverse: #ffffff;
+}
+
+/* ── LIGHT: AMBIENT BACKGROUND ── */
+[data-theme='light'] .ambient-orb {
+  opacity: 0.06;
+  filter: blur(100px);
+}
+
+/* ── LIGHT: GLASS CARD ── */
+[data-theme='light'] .glass-card {
+  background: rgba(255, 255, 255, 0.65);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+[data-theme='light'] .glass-card:hover {
+  border-color: rgba(0, 0, 0, 0.14);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 6px 20px rgba(0, 0, 0, 0.04);
+}
+
+/* ── LIGHT: HEADER ── */
+[data-theme='light'] .medusa-header {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+[data-theme='light'] .coin-ring {
+  border-color: rgba(0, 200, 106, 0.25);
+}
+[data-theme='light'] .coin-logo {
+  filter: drop-shadow(0 4px 16px rgba(0, 200, 106, 0.15));
+}
+[data-theme='light'] .header-accent {
+  background: linear-gradient(135deg, var(--m-green), #00a65c);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* ── LIGHT: CHAIN PILL ── */
+[data-theme='light'] .chain-pill {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.22);
+  color: #b97a04;
+}
+[data-theme='light'] .chain-live-dot {
+  background: #d4920a;
+  box-shadow: 0 0 6px #d4920a;
+}
+
+/* ── LIGHT: STATUS CARD ── */
+[data-theme='light'] .status-indicator.connected .status-ring {
+  border-color: rgba(0, 200, 106, 0.3);
+}
+
+/* ── LIGHT: BADGE ── */
+[data-theme='light'] .badge-optional {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--t-muted);
+}
+
+/* ── LIGHT: INPUT ── */
+[data-theme='light'] .input-wrapper {
+  background: rgba(240, 242, 245, 0.9);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+[data-theme='light'] .input-wrapper:focus-within {
+  border-color: rgba(0, 200, 106, 0.45);
+  box-shadow: 0 0 0 3px rgba(0, 200, 106, 0.1);
+}
+[data-theme='light'] .addr-input::placeholder {
+  color: #a0aab5;
+}
+
+/* ── LIGHT: ALERT BANNER ── */
+[data-theme='light'] .alert-banner.warning {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.25);
+  color: #b45309;
+}
+
+/* ── LIGHT: TIER CARDS ── */
+[data-theme='light'] .tier-option {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+[data-theme='light'] .tier-option:not(.premium)::before {
+  background: radial-gradient(ellipse at bottom, rgba(0, 200, 106, 0.08), transparent 70%);
+}
+[data-theme='light'] .tier-option.premium::before {
+  background: radial-gradient(ellipse at bottom, rgba(147, 51, 234, 0.08), transparent 70%);
+}
+[data-theme='light'] .tier-option:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Selected states — light */
+[data-theme='light'] .tier-option.selected {
+  border-color: rgba(0, 200, 106, 0.5);
+  box-shadow: 0 0 0 3px rgba(0, 200, 106, 0.1), 0 4px 16px rgba(0, 200, 106, 0.08);
+}
+[data-theme='light'] .tier-option.premium.selected {
+  border-color: rgba(147, 51, 234, 0.5);
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1), 0 4px 16px rgba(147, 51, 234, 0.08);
+}
+
+/* Tier tags — light */
+[data-theme='light'] .express-tag {
+  background: rgba(0, 200, 106, 0.12);
+  color: #009e52;
+}
+[data-theme='light'] .premium-tag {
+  background: rgba(147, 51, 234, 0.12);
+  color: #7e22ce;
+}
+
+/* Tier ribbon — keep as-is (solid gradient, white text looks fine) */
+
+/* ── LIGHT: CTA BUTTON ── */
+/* Gradients are kept — they work well on light backgrounds */
+[data-theme='light'] .cta-button:hover:not(:disabled) {
+  box-shadow: 0 8px 24px rgba(0, 200, 106, 0.2), 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+[data-theme='light'] .cta-button.premium:hover:not(:disabled) {
+  box-shadow: 0 8px 24px rgba(147, 51, 234, 0.2), 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+[data-theme='light'] .cta-price {
+  background: rgba(0, 0, 0, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ── LIGHT: SPINNER ── */
+[data-theme='light'] .cta-button .spinner {
+  border-color: rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+}
+
+/* ── LIGHT: PROGRESS PANEL ── */
+[data-theme='light'] .progress-inner {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+[data-theme='light'] .scan-coin {
+  border-color: rgba(0, 200, 106, 0.35);
+  box-shadow: 0 0 20px rgba(0, 200, 106, 0.12);
+}
+
+/* ── LIGHT: RESULTS PANEL ── */
+[data-theme='light'] .result-banner {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+[data-theme='light'] .result-banner.secure {
+  background: linear-gradient(135deg, rgba(0, 200, 106, 0.08), rgba(0, 200, 106, 0.02));
+  border-color: rgba(0, 200, 106, 0.25);
+}
+[data-theme='light'] .result-banner.warning {
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.08), rgba(217, 119, 6, 0.02));
+  border-color: rgba(217, 119, 6, 0.25);
+}
+[data-theme='light'] .result-banner.danger {
+  background: linear-gradient(135deg, rgba(225, 29, 72, 0.08), rgba(225, 29, 72, 0.02));
+  border-color: rgba(225, 29, 72, 0.25);
+}
+[data-theme='light'] .result-details {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+[data-theme='light'] .detail-row {
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+/* Score ring track — light */
+[data-theme='light'] .score-track {
+  stroke: rgba(0, 0, 0, 0.08);
+}
+
+/* BSCScan Link — light */
+[data-theme='light'] .bscscan-link {
+  background: rgba(37, 99, 235, 0.06);
+  border-color: rgba(37, 99, 235, 0.2);
+}
+[data-theme='light'] .bscscan-link:hover {
+  background: rgba(37, 99, 235, 0.1);
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+/* ── LIGHT: ERC-8004 PILL ── */
+[data-theme='light'] .erc8004-pill {
+  background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(37, 99, 235, 0.1)) !important;
+  border-color: rgba(147, 51, 234, 0.25) !important;
+  color: #7e22ce !important;
+}
+[data-theme='light'] .erc8004-tag {
+  background: linear-gradient(135deg, #7e22ce, #2563eb);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* ── LIGHT: FOOTER ── */
+[data-theme='light'] .medusa-footer {
+  border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+/* ── LIGHT: SCROLLBAR ── */
+[data-theme='light'] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+[data-theme='light'] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* ── LIGHT: SELECTION ── */
+[data-theme='light'] ::selection {
+  background: rgba(0, 200, 106, 0.18);
+  color: #1a1d23;
+}
+
+/* ── LIGHT: KEYFRAME OVERRIDES (ring-pulse for light) ── */
+/* The ring-pulse keyframes reference hardcoded rgba values.
+   We override the elements that use them instead. */
+[data-theme='light'] .coin-ring {
+  animation-name: ring-pulse-light;
+}
+@keyframes ring-pulse-light {
+  0%, 100% { transform: scale(1);    opacity: .5; border-color: rgba(0, 200, 106, .2); }
+  50%      { transform: scale(1.08); opacity: .9; border-color: rgba(0, 200, 106, .35); }
+}
+
+/* ═══════════════════════════════════════════════════
+   STANDALONE MODE — shown when opened outside Remix
+   ═══════════════════════════════════════════════════ */
+.standalone-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.standalone-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 32px 28px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  animation: slide-up .6s var(--ease);
+}
+.standalone-logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 14px;
+  filter: drop-shadow(0 4px 24px rgba(0, 232, 123, 0.25));
+}
+.standalone-card h2 {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--t-primary);
+  margin-bottom: 4px;
+}
+.standalone-version {
+  font-size: 11px;
+  color: var(--t-muted);
+  margin-bottom: 16px;
+}
+.standalone-divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 16px 0;
+}
+.standalone-desc {
+  font-size: 13px;
+  color: var(--t-secondary);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.standalone-steps {
+  text-align: left;
+  font-size: 12px;
+  color: var(--t-secondary);
+  line-height: 1.8;
+  padding-left: 18px;
+  margin-bottom: 16px;
+}
+.standalone-steps a {
+  color: var(--m-green);
+  text-decoration: none;
+  font-weight: 600;
+}
+.standalone-steps a:hover {
+  text-decoration: underline;
+}
+.standalone-url {
+  background: var(--bg-input);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+.standalone-url code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--m-green);
+  word-break: break-all;
+}
+.standalone-link {
+  display: inline-block;
+  color: var(--m-green);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity .2s;
+}
+.standalone-link:hover {
+  opacity: .8;
+  text-decoration: underline;
+}

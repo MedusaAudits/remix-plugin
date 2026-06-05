@@ -2,6 +2,17 @@
 // 🐍 MEDUSA AI — REMIX PLUGIN CONFIGURATION
 // ============================================
 
+// Plugin metadata
+export const PLUGIN_VERSION = '2.1.0';
+export const PLUGIN_NAME = 'Medusa AI Auditor';
+
+// Backend API for source code submission
+export const BACKEND_URL = 'https://medusaaudits.com';
+export const BACKEND_ENDPOINTS = {
+  submitSource: `${BACKEND_URL}/api/plugin/submit-source`,
+  checkStatus: `${BACKEND_URL}/api/plugin/status`,
+};
+
 // Contract V2 with ERC-8004 + dual-tier pricing (deployed 2026-06-04, agentId #127076)
 export const MEDUSA_CONTRACT = '0xC0893Af3EdA67F1fEfc73DF82192de97258692Ea';
 export const BSC_CHAIN_ID = 56;
